@@ -20,9 +20,9 @@ export default function Home({ allArticleData }) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allArticleData.map(({ id, url, date, author, title }) => (
+          {allArticleData.map(({ id, date, author, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${url}`}>
+              <Link href={`/posts/${id}`}>
                 <a>{title}</a>
               </Link>
               <br />

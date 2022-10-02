@@ -1,28 +1,28 @@
 import Layout from '../../components/layout'
-import { getPostData } from '../../lib/posts'
+import { getArticleContent, getAllArticleIds } from '../../lib/firebase'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
 
-export default function Post({ postData }) {
+export default function Post({ content }) {
   return (
     <Layout>
       <Head>
-        <title>{postData.title}</title>
+        <title>{content.title}</title>
       </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <h1 className={utilStyles.headingXl}>{content.title}</h1>
         <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
+          <Date dateString={content.date} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.markdown }} />
+        <div dangerouslySetInnerHTML={{ __html: content.markdown }} />
       </article>
     </Layout>
   )
 }
 
 export async function getStaticPaths() {
-  const paths = getAllPostIds()
+  const paths = await getAllArticleIds()
   return {
     paths,
     fallback: false
@@ -30,10 +30,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id)
+  const content = await getArticleContent(params.id)
   return {
     props: {
-      postData
+      content
     }
   }
 }
