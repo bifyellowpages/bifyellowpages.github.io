@@ -3,7 +3,6 @@ import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { getAllArticleData  } from '../lib/firebase'
 import Link from 'next/link'
-import Date from '../components/date'
 
 export default function Home({ allArticleData }) {
   return (
@@ -21,9 +20,15 @@ export default function Home({ allArticleData }) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allArticleData.map(({ id, title }) => (
+          {allArticleData.map(({ id, url, date, author, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              <h2>{title} - {id}</h2>
+              <Link href={`/posts/${url}`}>
+                <a>{title}</a>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>
+                {date}
+              </small>
             </li>
           ))}
         </ul>
