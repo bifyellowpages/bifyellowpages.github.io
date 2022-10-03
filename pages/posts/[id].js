@@ -22,7 +22,9 @@ export default function Post({ content }) {
 }
 
 export async function getStaticPaths() {
+  console.log("getting paths...")
   const paths = await getAllArticleIds()
+  console.log(paths)
   return {
     paths,
     fallback: false
