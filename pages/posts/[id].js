@@ -15,7 +15,7 @@ export default function Post({ content }) {
         <div className={utilStyles.lightText}>
           <Date dateString={content.date} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: content.markdown }} />
+        <div dangerouslySetInnerHTML={{ __html: content.contentHtml }} />
       </article>
     </Layout>
   )
