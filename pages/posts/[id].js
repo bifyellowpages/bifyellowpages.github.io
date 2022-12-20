@@ -5,16 +5,29 @@ import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
 
 export default function Post({ content }) {
+  const makeCommaSeparatedString = (arr, useOxfordComma) => {
+    const listStart = arr.slice(0, -1).join(', ')
+    const listEnd = arr.slice(-1)
+    const conjunction = arr.length <= 1 
+      ? '' 
+      : useOxfordComma && arr.length > 2 
+        ? ', and ' 
+        : ' and '
+  
+    return [listStart, listEnd].join(conjunction)
+  }
+  const authorData = makeCommaSeparatedString(content.author, true);
   return (
     <Layout>
-      <Head>
-        <title>{content.title}</title>
-      </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{content.title}</h1>
-        <div className={utilStyles.lightText}>
+        <h1 className = "text-4xl mb-1">{content.title}</h1>
+        <div className="text-gray-500">
           <Date dateString={content.date} />
         </div>
+        <div className="text-gray-500 mb-4">
+          By {authorData}
+        </div>
+        
         <div dangerouslySetInnerHTML={{ __html: content.contentHtml }} />
       </article>
     </Layout>

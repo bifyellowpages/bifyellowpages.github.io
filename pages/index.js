@@ -3,6 +3,7 @@ import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { getAllArticleData  } from '../lib/firebase'
 import Link from 'next/link'
+import Date from '../components/date'
 
 export default function Home({ allArticleData }) {
   return (
@@ -27,7 +28,7 @@ export default function Home({ allArticleData }) {
               </Link>
               <br />
               <small className={utilStyles.lightText}>
-                {date}
+              <Date dateString={date} />
               </small>
             </li>
           ))}
