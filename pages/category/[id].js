@@ -1,16 +1,17 @@
 import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getAllArticleData  } from '../lib/firebase'
+import Layout, { siteTitle } from '../../components/layout'
+import utilStyles from '../../styles/utils.module.css'
+import { getAllArticleData  } from '../../lib/firebase'
 import Link from 'next/link'
-import Date from '../components/date'
-import yellowPages5 from '../public/images/yellowPages5.png'
+import Date from '../../components/date'
+import yellowPages5 from '../../public/images/yellowPages5.png'
 import Image from "next/image"
-import Navbar from "../components/Navbar.js"
+import Navbar from "../../components/Navbar.js"
 import { parseISO, format } from 'date-fns'
-import { makeCommaSeparatedString } from '../lib/makeCommaSeparatedString'
+import { categories } from "../../lib/categories"
+import { makeCommaSeparatedString } from '../../lib/makeCommaSeparatedString'
 
-export default function Home({ allArticleData }) {
+export default function Home({ articleData }) {
   return (
     // <Layout home>
     <div className="bg-white">
@@ -23,7 +24,7 @@ export default function Home({ allArticleData }) {
           
             {/* <h3 className="mt-4 text-sm text-gray-700">Xacto Blades, Goblet, Altered Shadow</h3>
             <p className="mt-1 text-lg font-medium text-gray-900">Tsunami Blades</p> */}
-          {allArticleData.map(({ id, date, author, title, tags }) => (
+          {articleData.map(({ id, date, author, title, tags }) => (
             <div className="h-min w-full max-w-sm overflow-hidden rounded-lg bg-gray-200">
             <Link href={`/posts/${id}`} legacyBehavior> 
               <a class="block max-w-sm p-3 bg-white border border-slate-700 rounded-lg shadow-md hover:bg-gray-100 hover:no-underline dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -44,11 +45,27 @@ export default function Home({ allArticleData }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticPaths() {
+    const paths = categories.map(x => ({"params":{"id": x}}))
+    console.log(paths)
+    return {
+      paths,
+      fallback: false
+    }
+  }
+
+export async function getStaticProps({ params }) {
   const allArticleData = await getAllArticleData()
+  function isCategory (article) {
+    if (article.tags == null) {
+        return false;
+    }
+    return article.tags.includes(params.id)
+  };
+  const articleData = allArticleData.filter(isCategory);
   return {
     props: {
-      allArticleData
+        articleData
     }
   }
 }

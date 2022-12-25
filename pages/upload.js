@@ -71,6 +71,7 @@ export default function Upload({ admins }) {
 title: "Placeholder Title"
 date: "1000-01-01"
 author: [""]
+tags: []
 ---
 `);
   const [htmlData, setHtmlData] = useState("");

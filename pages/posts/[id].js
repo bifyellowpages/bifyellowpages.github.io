@@ -3,23 +3,13 @@ import { getArticleContent, getAllArticleIds } from '../../lib/firebase'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
+import Link from "next/link"
+import { makeCommaSeparatedString } from '../../lib/makeCommaSeparatedString'
 
 export default function Post({ content }) {
-  const makeCommaSeparatedString = (arr, useOxfordComma) => {
-    const listStart = arr.slice(0, -1).join(', ')
-    const listEnd = arr.slice(-1)
-    const conjunction = arr.length <= 1 
-      ? '' 
-      : useOxfordComma && arr.length > 2 
-        ? ', and ' 
-        : ' and '
-  
-    return [listStart, listEnd].join(conjunction)
-  }
   const authorData = makeCommaSeparatedString(content.author, true);
   return (
-    <Layout>
-      <article>
+      <div className="m-auto max-w-2xl my-10">
         <h1 className = "text-4xl mb-1">{content.title}</h1>
         <div className="text-gray-500">
           <Date dateString={content.date} />
@@ -29,8 +19,12 @@ export default function Post({ content }) {
         </div>
         
         <div dangerouslySetInnerHTML={{ __html: content.contentHtml }} />
-      </article>
-    </Layout>
+        <div className="hover:underline text-blue-500 mb-5">
+          <Link href="/">
+            <a>← Back</a>
+          </Link>
+        </div>
+      </div>
   )
 }
 

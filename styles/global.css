@@ -16,10 +16,6 @@ p {
   @apply mb-3;
 }
 
-a {
-  @apply text-blue-600 hover:underline;
-}
-
 textarea {
   @apply w-full border-2 text-xs h-80;
 }
@@ -28,6 +24,27 @@ button {
   @apply border-2;
 }
 
+.imageContainer {
+  max-height: 9rem;
+  height: 100%;
+  width: auto;
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  
+  
+  /* & > span {
+      position: unset !important;
+      height: 100%;
+  } */
+
+  .image {
+      object-fit: contain;
+      width: auto !important;
+      position: relative !important;
+      height: auto !important;
+  }
+}
 /* html,
 body {
   padding: 0;
